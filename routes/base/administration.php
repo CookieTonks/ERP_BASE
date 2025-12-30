@@ -16,7 +16,7 @@ use App\Exports\BudgetRejected;
 
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::middleware(['can:administracion_dashboard'])->group(function () {
+    Route::middleware(['can:administration_dashboard'])->group(function () {
         Route::get('/administration/home', [AdministrationController::class, 'home'])->name('administration.home');
 
         Route::get('/export-closed-budgets', function () {

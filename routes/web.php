@@ -37,4 +37,5 @@ Route::middleware(['web'])->group(function () {
     Route::group([], base_path('routes/base/shipping.php'));
     Route::group([], base_path('routes/base/invoices.php'));
     Route::group([], base_path('routes/base/administration.php'));
+    Route::group([], base_path('routes/base/catalog.php'));
 });

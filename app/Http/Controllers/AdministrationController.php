@@ -183,7 +183,7 @@ class AdministrationController extends Controller
                 ->with('success', '¡Proveedor dado de alta con exito!');
         } catch (\Exception $e) {
             return redirect()->route('administration.home')
-                ->with('error', 'Ocurrió un error al dar de alta el proveedor. Intenta nuevamente.' .$e);
+                ->with('error', 'Ocurrió un error al dar de alta el proveedor. Intenta nuevamente.' . $e);
         }
     }
 
@@ -199,11 +199,9 @@ class AdministrationController extends Controller
             $cliente->phone = $request->telefono;
             $cliente->address = $request->direccion;
             $cliente->save();
-            return redirect()->route('administration.home')
-                ->with('success', '¡Cliente dado de alta con exito!');
+            return back()->with('success', '¡Cliente dado de alta con éxito!');
         } catch (\Exception $e) {
-            return redirect()->route('administration.home')
-                ->with('error', 'Ocurrió un error al dar de alta el cliente. Intenta nuevamente.' . $e);
+           return back()->with('success', '¡Cliente dado de alta con éxito!')->with('error', 'Ocurrió un error al dar de alta el cliente. Intenta nuevamente.' . $e);
         }
     }
 
