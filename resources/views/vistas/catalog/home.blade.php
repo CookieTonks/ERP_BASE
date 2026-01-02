@@ -16,84 +16,135 @@
                             <a href="#"
                                 class="text-decoration-none text-dark fw-bold fs-5"
                                 data-bs-toggle="modal"
-                                data-bs-target="#createClientModal">
+                                data-bs-target="#clientsModal">
                                 <i class="bi bi-file-earmark-text me-2"></i> Clientes
                             </a>
 
+
                         </div>
                     </div>
                 </div>
 
 
-                <div class="modal fade" id="createClientModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+                <div class="modal fade" id="clientsModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
                         <div class="modal-content rounded-4">
+
                             <div class="modal-header">
-                                <h5 class="modal-title fw-bold">Alta de Cliente</h5>
+                                <h5 class="modal-title fw-bold">Catalogo de Clientes</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
 
-                            <form method="POST" action="{{route('administracion.cliente')}}">
-                                @csrf
+                            <div class="modal-body">
 
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre</label>
-                                        <input type="text" name="name" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">RFC</label>
-                                        <input type="rfc" name="rfc" class="form-control">
-                                    </div>
-
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Teléfono</label>
-                                        <input type="text" name="phone" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Dirección</label>
-                                        <textarea name="address" class="form-control" rows="2"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        Cancelar
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        Guardar
+                                <!-- BOTÓN AGREGAR -->
+                                <div class="mb-3 text-end">
+                                    <button type="button" class="btn btn-primary" onclick="newClient()">
+                                        + Nuevo cliente
                                     </button>
                                 </div>
-                            </form>
+
+                                <!-- FORMULARIO -->
+                                <div id="clientForm" class="mb-4 d-none">
+                                    @include('vistas.catalog.cliente_form')
+                                </div>
+
+                                <!-- LISTA -->
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>RFC</th>
+                                            <th>Email</th>
+                                            <th>Teléfono</th>
+                                            <th class="text-end">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($clientes as $cliente)
+                                        <tr>
+                                            <td>{{ $cliente->name }}</td>
+                                            <td>{{ $cliente->rfc }}</td>
+                                            <td>{{ $cliente->email }}</td>
+                                            <td>{{ $cliente->phone }}</td>
+                                            <td class="text-end">
+
+                                                <button type="button"
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    onclick='editClient(@json($cliente))'>
+                                                    Editar
+                                                </button>
+
+                                                <form method="POST"
+                                                    action="{{ route('clientes.destroy', $cliente->id) }}"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('¿Eliminar cliente?')">
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Módulo 2 -->
-
-
-
-
-
-
-                <!-- Módulo 3 -->
-
-
             </div>
+
+
 
 
 
         </div>
 
+
+
     </div>
+
+    <script>
+        function newClient() {
+            const form = document.getElementById('clientForm');
+            form.classList.remove('d-none');
+
+            document.getElementById('clientFormAction').reset();
+            document.getElementById('client_id').value = '';
+
+            document.getElementById('clientFormAction').action =
+                "{{ route('administracion.cliente') }}";
+        }
+
+        function editClient(cliente) {
+            const form = document.getElementById('clientForm');
+            form.classList.remove('d-none');
+
+            document.getElementById('client_id').value = cliente.id;
+            document.getElementById('name').value = cliente.name ?? '';
+            document.getElementById('rfc').value = cliente.rfc ?? '';
+            document.getElementById('email').value = cliente.email ?? '';
+            document.getElementById('phone').value = cliente.phone ?? '';
+            document.getElementById('address').value = cliente.address ?? '';
+
+            document.getElementById('clientFormAction').action =
+                `/clientes/${cliente.id}/update`;
+        }
+    </script>
+
+
+
+
+    </div>
+
+
 
 
 </x-app-layout>

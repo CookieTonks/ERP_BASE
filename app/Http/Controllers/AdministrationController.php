@@ -193,7 +193,7 @@ class AdministrationController extends Controller
 
         try {
             $cliente = new Client();
-            $cliente->name = $request->nombre;
+            $cliente->name = $request->name;
             $cliente->rfc = $request->rfc;
             $cliente->email = $request->email;
             $cliente->phone = $request->telefono;
