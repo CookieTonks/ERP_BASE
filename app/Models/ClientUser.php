@@ -9,7 +9,12 @@ class ClientUser extends Model
 {
     use HasFactory;
 
-    public function client()
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public function Client()
     {
         return $this->belongsTo(Client::class);
     }

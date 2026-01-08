@@ -1,5 +1,5 @@
 <form method="POST" id="clientFormAction"
-    action="{{ route('administracion.cliente') }}">
+    action="{{ route('cliente.save') }}">
     @csrf
     <input type="hidden" name="id" id="client_id">
 

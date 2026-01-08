@@ -188,40 +188,25 @@ class AdministrationController extends Controller
     }
 
 
-    public function cliente(Request $request)
-    {
 
+
+    public function clienteDestroy(Request $request)
+    {
         try {
             $cliente = new Client();
             $cliente->name = $request->name;
             $cliente->rfc = $request->rfc;
             $cliente->email = $request->email;
-            $cliente->phone = $request->telefono;
-            $cliente->address = $request->direccion;
+            $cliente->phone = $request->phone;
+            $cliente->address = $request->address;
             $cliente->save();
             return back()->with('success', '¡Cliente dado de alta con éxito!');
         } catch (\Exception $e) {
-           return back()->with('success', '¡Cliente dado de alta con éxito!')->with('error', 'Ocurrió un error al dar de alta el cliente. Intenta nuevamente.' . $e);
+            return back()->with('success', '¡Cliente dado de alta con éxito!')->with('error', 'Ocurrió un error al dar de alta el cliente. Intenta nuevamente.' . $e);
         }
     }
 
 
-    public function clienteUsuario(Request $request)
-    {
-        try {
-            $cliente = new ClientUser();
-            $cliente->name = $request->nombre;
-            $cliente->client_id = $request->cliente_id;
-            $cliente->email = $request->email;
-            $cliente->phone = $request->telefono;
-            $cliente->save();
-            return redirect()->route('administration.home')
-                ->with('success', '¡Usuario dado de alta con exito!');
-        } catch (\Exception $e) {
-            return redirect()->route('administration.home')
-                ->with('error', 'Ocurrió un error al dar de alta el usuario. Intenta nuevamente.' . $e);
-        }
-    }
 
     public function empleado(Request $request)
     {
